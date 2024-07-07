@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan
+  labels:
+    app: my-app
+spec:
+  template:
+    metadata:
+      name: loan
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: loan
+          image: loan-service:v1.0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan
+spec:
+  ports:
+    - targetPort: 8081
+      port: 80
+  selector:
+    app: my-app

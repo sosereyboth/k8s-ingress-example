@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: payment
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: public.myservices.com
+      http:
+        paths:
+          - path: /payment(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loan
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: public.myservices.com
+      http:
+        paths:
+          - path: /loan-service(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: loan
+                port:
+                  number: 80

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  labels:
+    app: my-app
+spec:
+  template:
+    metadata:
+      name: payment
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: payment
+          image: payment-service:v1.0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+spec:
+  ports:
+    - targetPort: 8080
+      port: 80
+  selector:
+    app: my-app
